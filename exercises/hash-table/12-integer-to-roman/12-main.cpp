@@ -1,66 +1,35 @@
 #include <stdio.h>
 #include <stdlib.h>
+//https://leetcode.com/problems/integer-to-roman/?envType=problem-list-v2&envId=hash-table
 
-int value[] = {1, 5, 10, 50, 100, 500, 1000};
-char symbol[] = {'I','V','X','L','C','D','M'};
-
-char* intToRoman(int num) {
- // num <=3999
-	char* result = (char*)malloc(10*sizeof(char));
-	int len  =0;
-
-	int thounsand  = num/1000;
-	int symbol_len = 6;
-
-	while (thounsand > 0 && symbol_len > -1)
-	{
-		if (thounsand - value[symbol_len] >=0)
-		{
-			result[len++] = symbol[symbol_len];
-			thounsand-= value[symbol_len];
-		}
-		else 
-			symbol_len--;
-	}
-	result[len++] = 'M';
-
-	int hundreds = (num - thounsand*1000)/500;
-
-	symbol_len = 6;
-
-
-	result[len++] = 0;
-	return result;
-}
-
-
-char* intToRoman2(int num)
+char *intToRoman(int num)
 {
-	char* result = (char*)malloc(10*sizeof(char));
-	int len  =0;
+	char *result = (char *)malloc(20* sizeof(char));
+	int len = 0;
 	int n_multiple = 0;
 	// thounsand
-	if (num/1000 > 0)
+	if (num / 1000 > 0)
 	{
 		n_multiple = num / 1000;
-		for (int i = 1; i<=n_multiple;i++)
-			{
-				result[len++] = 'M';
-			}
+		for (int i = 1; i <= n_multiple; i++)
+		{
+			result[len++] = 'M';
+		}
 	}
 	// hundreds
-	num = num%1000;
-	n_multiple = num/500;
-	if (n_multiple  > 0)
+	num = num % 1000;
+	n_multiple = num / 500;
+	if (n_multiple > 0)
 	{
-		if (num/ 100 == 9)
-			{
-				result[len++] = 'C';
-				result[len++] = 'M';
-			} 
-		else {
+		if (num / 100 == 9)
+		{
+			result[len++] = 'C';
+			result[len++] = 'M';
+		}
+		else
+		{
 			result[len++] = 'D';
-			for (int i = 6; i<= num/100;i++)
+			for (int i = 6; i <= num / 100; i++)
 			{
 				result[len++] = 'C';
 			}
@@ -68,30 +37,93 @@ char* intToRoman2(int num)
 	}
 	else
 	{
-		n_multiple = num/100;
+		n_multiple = num / 100;
 		if (n_multiple == 4)
-			{
-				result[len++] = 'C';
-				result[len++] = 'D';
-			}
-		else
 		{
-			for (int i = 1; i<=n_multiple;i++)
+			result[len++] = 'C';
+			result[len++] = 'D';
+		}
+		else if (n_multiple > 0)
+		{
+			for (int i = 1; i <= n_multiple; i++)
 				result[len++] = 'C';
 		}
-
 	}
-	
+
 	// dozen
+	num = num % 100;
+	n_multiple = num / 50;
+	if (n_multiple > 0)
+	{
+		if (num / 10 == 9)
+		{
+			result[len++] = 'X';
+			result[len++] = 'C';
+		}
+		else
+		{
+			result[len++] = 'L';
+			for (int i = 6; i <= num / 10; i++)
+			{
+				result[len++] = 'X';
+			}
+		}
+	}
+	else
+	{
+		n_multiple = num / 10;
+		if (n_multiple == 4)
+		{
+			result[len++] = 'X';
+			result[len++] = 'L';
+		}
+		else if (n_multiple > 0)
+		{
+			for (int i = 1; i <= n_multiple; i++)
+				result[len++] = 'X';
+		}
+	}
+	// units
+	num = num % 10;
+	n_multiple = num / 5;
+	if (n_multiple > 0)
+	{
+		if (num / 1 == 9)
+		{
+			result[len++] = 'I';
+			result[len++] = 'X';
+		}
+		else
+		{
+			result[len++] = 'V';
+			for (int i = 6; i <= num / 1; i++)
+			{
+				result[len++] = 'I';
+			}
+		}
+	}
+	else
+	{
+		n_multiple = num / 1;
+		if (n_multiple == 4)
+		{
+			result[len++] = 'I';
+			result[len++] = 'V';
+		}
+		else if (n_multiple > 0)
+		{
+				for (int i = 1; i <= n_multiple; i++)
+					result[len++] = 'I';
+		}
+	}
 
 	result[len++] = '\0';
 	return result;
 }
 
-
 int main()
 {
-	printf("\nhaha = %d ",4321%1000);
-	printf("\ns = %s\n",intToRoman2(3749));
+	printf("\ns = %s\n", intToRoman(10));
+	fflush(stdout);
 	return 0;
 }
