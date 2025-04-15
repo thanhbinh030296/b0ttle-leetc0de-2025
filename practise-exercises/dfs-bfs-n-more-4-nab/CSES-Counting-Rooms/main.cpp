@@ -1,7 +1,7 @@
 #include <stdio.h>
 #define FLOOR '.'
 #define WALL '#'
-#define MAGIC_NUMBER 1000
+#define MAGIC_NUMBER 10000
 #define MAX_FLOORS 1000
 /*
     n*m map
@@ -74,13 +74,14 @@ int main()
 
         //isCount[x][y] = true;
         start = 0;
-        len  = 1;
+        len  = 0;
         queue[len++] = x*MAGIC_NUMBER + y;
         //loop to count room via queue
         while (start < len)
         {
             x = queue[start] / MAGIC_NUMBER;
             y = queue[start] % MAGIC_NUMBER;
+            start++;
             if (isCount[x][y]== true)
                 continue;
             isCount[x][y] = true;
@@ -95,8 +96,6 @@ int main()
                     queue[len++] = (x + x_move[i_move]) * MAGIC_NUMBER + y + y_move[i_move];
                 }
             }
-            start++;
-
         }
 
     }
